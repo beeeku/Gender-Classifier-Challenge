@@ -21,45 +21,45 @@ svmc = svmc.fit(X, Y)
 gpc = gpc.fit(X,Y)
 
 
-def predictionGenerate(sample):
+def prediction_generate(sample):
   data =[]
   accuracy = 0
-  dtcPrediction = dtc.predict(sample)
-  dtcPredictionScore = dtc.score(X,Y, sample_weight=None)
-  kncPrediction = knc.predict(sample)
-  kncPredictionScore = knc.score(X,Y, sample_weight=None)
-  svmcPrediction = svmc.predict(sample)
-  svmcPredictionScore = svmc.score(X,Y, sample_weight=None)
-  gpcPrediction = gpc.predict(sample)
-  gpcPredictionScore = gpc.score(X,Y, sample_weight=None)
+  dtc_prediction = dtc.predict(sample)
+  dtc_prediction_score = dtc.score(X,Y, sample_weight=None)
+  knc_prediction = knc.predict(sample)
+  knc_prediction_score = knc.score(X,Y, sample_weight=None)
+  svmc_prediction = svmc.predict(sample)
+  svmc_prediction_score = svmc.score(X,Y, sample_weight=None)
+  gpc_prediction = gpc.predict(sample)
+  gpc_prediction_score = gpc.score(X,Y, sample_weight=None)
 
-  #print dtcPredictionScore
-  #print kncPredictionScore
-  #print svmcPredictionScore
-  #print gpcPredictionScore
+  #print dtc_prediction_score
+  #print knc_prediction_score
+  #print svmc_prediction_score
+  #print gpc_prediction_score
 
-  if dtcPredictionScore >accuracy:
-    accuracy = dtcPredictionScore
-    result = dtcPrediction
+  if dtc_prediction_score >accuracy:
+    accuracy = dtc_prediction_score
+    result = dtc_prediction
     algo = 'dtc'
 
   
-  if kncPredictionScore >accuracy:
-    accuracy = kncPredictionScore
-    result = kncPrediction
+  if knc_prediction_score >accuracy:
+    accuracy = knc_prediction_score
+    result = knc_prediction
     algo = 'knc'
   
   
 
-  if svmcPredictionScore >accuracy:
-    accuracy = svmcPredictionScore
-    result = svmcPrediction
+  if svmc_prediction_score >accuracy:
+    accuracy = svmc_prediction_score
+    result = svmc_prediction
     algo = 'svmc'
   
  
-  if gpcPredictionScore > accuracy:
-    accuracy = gpcPredictionScore
-    result = gpcPrediction  
+  if gpc_prediction_score > accuracy:
+    accuracy = gpc_prediction_score
+    result = gpc_prediction  
     algo ='gpc'
     
   data.append( result )
@@ -68,4 +68,4 @@ def predictionGenerate(sample):
   return data 
       
 
-print predictionGenerate([[175, 110, 43]])
+print prediction_generate([[175, 110, 43]])
