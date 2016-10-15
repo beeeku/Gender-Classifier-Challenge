@@ -1,71 +1,47 @@
 from sklearn import tree
+from sklearn.svm import SVC
+from sklearn.linear_model import Perceptron
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn import svm
-from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.metrics import accuracy_score
+import numpy as np
 
-dtc = tree.DecisionTreeClassifier()
-knc = KNeighborsClassifier(n_neighbors=3)
-svmc = svm.SVC()
-gpc = GaussianProcessClassifier(warm_start=True)
-
-
-
-#[height, weight, shoe_size]
+# Data and labels
 X = [[181, 80, 44], [177, 70, 43], [160, 60, 38], [154, 54, 37], [166, 65, 40], [190, 90, 47], [175, 64, 39],
      [177, 70, 40], [159, 55, 37], [171, 75, 42], [181, 85, 43]]
 
 Y = ['male', 'male', 'female', 'female', 'male', 'male', 'female', 'female', 'female', 'male', 'male']
-dtc = dtc.fit(X, Y)
-knc = knc.fit(X, Y)
-svmc = svmc.fit(X, Y) 
-gpc = gpc.fit(X,Y)
 
+# Classifiers
+# using the default values for all the hyperparameters
+clf_tree = tree.DecisionTreeClassifier()
+clf_svm = SVC()
+clf_perceptron = Perceptron()
+clf_KNN = KNeighborsClassifier()
 
-def prediction_generate(sample):
-  data =[]
-  accuracy = 0
-  dtc_prediction = dtc.predict(sample)
-  dtc_prediction_score = dtc.score(X,Y, sample_weight=None)
-  knc_prediction = knc.predict(sample)
-  knc_prediction_score = knc.score(X,Y, sample_weight=None)
-  svmc_prediction = svmc.predict(sample)
-  svmc_prediction_score = svmc.score(X,Y, sample_weight=None)
-  gpc_prediction = gpc.predict(sample)
-  gpc_prediction_score = gpc.score(X,Y, sample_weight=None)
+# Training the models
+clf_tree.fit(X, Y)
+clf_svm.fit(X, Y)
+clf_perceptron.fit(X, Y)
+clf_KNN.fit(X, Y)
 
-  #print dtc_prediction_score
-  #print knc_prediction_score
-  #print svmc_prediction_score
-  #print gpc_prediction_score
+# Testing using the same data
+pred_tree = clf_tree.predict(X)
+acc_tree = accuracy_score(Y, pred_tree) * 100
+print('Accuracy for DecisionTree: {}'.format(acc_tree))
 
-  if dtc_prediction_score >accuracy:
-    accuracy = dtc_prediction_score
-    result = dtc_prediction
-    algo = 'dtc'
+pred_svm = clf_svm.predict(X)
+acc_svm = accuracy_score(Y, pred_svm) * 100
+print('Accuracy for SVM: {}'.format(acc_svm))
 
-  
-  if knc_prediction_score >accuracy:
-    accuracy = knc_prediction_score
-    result = knc_prediction
-    algo = 'knc'
-  
-  
+pred_per = clf_perceptron.predict(X)
+acc_per = accuracy_score(Y, pred_per) * 100
+print('Accuracy for perceptron: {}'.format(acc_per))
 
-  if svmc_prediction_score >accuracy:
-    accuracy = svmc_prediction_score
-    result = svmc_prediction
-    algo = 'svmc'
-  
- 
-  if gpc_prediction_score > accuracy:
-    accuracy = gpc_prediction_score
-    result = gpc_prediction  
-    algo ='gpc'
-    
-  data.append( result )
-  data.append(accuracy)
-  data.append(algo) 
-  return data 
-      
+pred_KNN = clf_KNN.predict(X)
+acc_KNN = accuracy_score(Y, pred_KNN) * 100
+print('Accuracy for KNN: {}'.format(acc_KNN))
 
-print prediction_generate([[175, 110, 43]])
+# The best classifier from svm, per, KNN
+index = np.argmax([acc_svm, acc_per, acc_KNN])
+classifiers = {0: 'SVM', 1: 'Perceptron', 2: 'KNN'}
+print('Best gender classifier is {}'.format(classifiers[index]))
